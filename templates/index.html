@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMS Resources | Manpower Consultancy</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/static/css/ams-style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo-container">
+        <img src="/static/assets/ams-logo.png" alt="AMS Logo">
+        <div class="logo-text"><span>AMS</span> RESOURCES</div>
+    </div>
+
+    <div class="nav-links" id="navLinks">
+        <a href="#">Home</a>
+
+        <div class="dropdown" id="aboutDropdown">
+            <a href="#shortAboutCompany">About ▾</a>
+            <div class="dropdown-content">
+                <a href="/about">About Company</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#testimonial-section">Testimonials</a>
+            </div>
+        </div>
+
+        <div class="dropdown" id="servicesDropdown">
+            <a href="#">Services ▾</a>
+            <div class="dropdown-content">
+                <a href="#recruitmentProcess">Recruitment</a>
+                <a href="#">Manpower Supply</a>
+                <a href="#">Staffing Solutions</a>
+                <a href="#">HR Consulting</a>
+            </div>
+        </div>
+
+        <a href="#currentRequirements">Requirements</a>
+        <a href="#contactUs">Contact Us</a>
+    </div>
+
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+</nav>
+
+<!-- MARQUEE --> 
+<div class="notification-bar">
+    <div class="notification-text" id="marqueeText">
+        🚀 Welcome to AMS Resources | Hiring Across India | Call Us Today for Staffing Solutions | Trusted Manpower Consultancy 🇮🇳
+    </div>
+</div>
+
+
+<!-- HERO -->
+<section class="hero">
+    <h1>People are the Strength of Every Organization</h1>
+    <p>
+        End-to-end manpower solutions across India. We connect world-class
+        talent with industry leaders.
+    </p>
+
+    <div class="hero-buttons">
+        <a href="#contactUs" class="btn">Hire Talent</a>
+        <a href="#currentRequirements" class="btn btn-outline">View Jobs</a>
+    </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="section">
+    <h2>Industries We Serve</h2>
+
+    <div class="cards">
+        <div class="card"><div class="icon">🏥</div><h3>Healthcare</h3></div>
+        <div class="card"><div class="icon">💻</div><h3>IT & Tech</h3></div>
+        <div class="card"><div class="icon">🏗️</div><h3>Engineering</h3></div>
+        <div class="card"><div class="icon">⚓</div><h3>Marine</h3></div>
+        <div class="card"><div class="icon">✈️</div><h3>Aviation</h3></div>
+    </div>
+</section>
+
+<!-- ABOUT SECTION -->
+<section class="about-section" id="shortAboutCompany">
+    <div class="about-container">
+
+        <!-- Left Content -->
+        <div class="about-text">
+            <h2>About AMS Resources</h2>
+            <p>
+                AMS Resources is a leading Human Resources consulting and recruitment firm
+                in India. We provide end-to-end manpower solutions supplying talent at all
+                levels—from administrative and marketing roles to skilled industrial workforce.
+            </p>
+
+            <ul class="about-list">
+                <li><span class="check">✔</span> Strong Pan-India Candidate Database</li>
+                <li><span class="check">✔</span> Reliable & Customized Solutions</li>
+                <li><span class="check">✔</span> Associate Offices Across Major Regions</li>
+            </ul>
+
+            <button class="about-btn" onclick="window.location.href='/about'">See More</button>
+        </div>
+
+        <!-- Right Image -->
+        <div class="about-image">
+            <img src="/static/assets/Outsourcing.png" alt="About AMS">
+        </div>
+
+    </div>
+</section>
+
+<!-- COUNTER SECTION -->
+<section class="counter-section">
+    <div class="counter-container">
+
+        <div class="counter-box">
+            <h2 class="counter" data-target="15">0</h2>
+            <p>Years Experience</p>
+        </div>
+
+        <div class="counter-box">
+            <h2 class="counter" data-target="1000">0</h2>
+            <p>Happy Clients</p>
+        </div>
+
+        <div class="counter-box">
+            <h2 class="counter" data-target="5000">0</h2>
+            <p>Successful Placements</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- RECRUITMENT SECTION -->
+<section class="recruitment-section" id="recruitmentProcess">
+    <div class="recruitment-container">
+
+        <h2>Recruitment Process</h2>
+
+        <div class="recruitment-steps">
+
+            <div class="step">
+                <div class="step-number">01</div>
+                <h3>Requirement Analysis</h3>
+                <p>Understanding client needs and workforce requirements.</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">02</div>
+                <h3>Candidate Sourcing</h3>
+                <p>Screening and shortlisting best-fit professionals.</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">03</div>
+                <h3>Interview & Evaluation</h3>
+                <p>Skill assessment and background verification.</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">04</div>
+                <h3>Placement & Follow-up</h3>
+                <p>Successful onboarding and performance monitoring.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- GALLERY SECTION -->
+<section class="gallery-section" id="gallery">
+    <div class="section-header">
+        <h2>Our Gallery</h2>
+        <p>Moments from our journey</p>
+    </div>
+
+    <div class="gallery-container">
+
+        <!-- Image Item -->
+        <div class="gallery-item reveal" data-type="image" data-src="/static/images/gallery1.jpg">
+            <img src="/static/images/gallery1.jpg" alt="">
+        </div>
+
+        <!-- Video Item -->
+        <div class="gallery-item reveal" data-type="video" data-src="/static/videos/sample.mp4">
+            <video src="/static/videos/sample.mp4" muted></video>
+            <div class="video-overlay">▶</div>
+        </div>
+
+    </div>
+</section>
+
+<!-- GALLERY MODAL -->
+<div class="gallery-modal" id="galleryModal">
+    <span class="close-gallery">&times;</span>
+
+    <div class="gallery-arrow prev">&#10094;</div>
+    <div class="gallery-modal-content" id="galleryContent"></div>
+    <div class="gallery-arrow next">&#10095;</div>
+</div>
+
+<!-- CURRENT REQUIREMENTS SECTION -->
+<section class="requirements-section" id="currentRequirements">
+    <div class="requirements-container">
+
+        <h2>Current Requirements</h2>
+
+        <div id="jobsContainer">
+            <!-- Jobs will be loaded dynamically from server -->
+            <div class="loading-jobs">Loading requirements...</div>
+        </div>
+
+        <!-- FUTURE OPENINGS CTA -->
+        <div class="future-cta">
+            <p>Don't see the right role?</p>
+            <a href="javascript:void(0)" onclick="openModal()">
+                Submit your CV for future openings →
+            </a>
+        </div>
+
+    <!-- APPLY FORM MODAL -->
+    <div class="apply-modal" id="applyModal">
+        <div class="apply-modal-content">
+
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+
+            <h2>Apply for Job</h2>
+
+            <form id="applyForm">
+
+                <input type="text" name="name" placeholder="Full Name" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+                <input type="tel" name="phone" placeholder="Phone Number" required>
+                <input type="text" name="location" placeholder="Current Location" required>
+
+                <label>Upload Biodata</label>
+                <input type="file" name="cv" accept=".pdf,.doc,.docx" placeholder="Upload CV" required>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span class="btn-text">Submit Application</span>
+                    <span class="spinner"></span>
+                </button>                
+
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIAL SECTION -->
+<section class="testimonial-section" id="testimonial-section">
+    <div class="wave-bg"></div>
+
+    <h2 class="section-title">What Our Clients Say</h2>
+
+    <div class="testimonial-container">
+        <div class="testimonial-track">
+
+            <div class="testimonial-card">
+
+                <div class="client-avatar">
+                    <img src="/static/assets/client1.jpg" alt="John Smith">
+                </div>
+            
+                <p>"Outstanding recruitment service. Highly professional and reliable team."</p>
+            
+                <h4>John Smith</h4>
+                <span>HR Manager</span>
+            
+            </div>            
+
+            <div class="testimonial-card">
+
+                <div class="client-avatar">
+                    <img src="/static/assets/client2.jpg" alt="Sarah Williams">
+                </div>
+
+                <p>"They helped us hire top-quality candidates in record time."</p>
+                <h4>- Sarah Williams</h4>
+                <span>Operations Head</span>
+            </div>
+
+            <div class="testimonial-card">
+
+                <div class="client-avatar">
+                    <img src="/static/assets/client3.jpg" alt="David Brown">
+                </div>
+
+                <p>"Excellent communication and seamless hiring process."</p>
+                <h4>- David Brown</h4>
+                <span>CEO</span>
+            </div>
+
+        </div>
+
+        <!-- Arrows -->
+        <button class="arrow left">&#10094;</button>
+        <button class="arrow right">&#10095;</button>
+
+        <!-- Dots -->
+        <div class="dots"></div>
+    </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="contact-section" id="contactUs">
+    <div class="contact-container">
+
+        <h2>Contact Us</h2>
+
+        <div class="contact-wrapper">
+
+            <!-- Left Info -->
+            <div class="contact-info">
+
+                <div class="info-box">
+                    <h4>📍 Office Address</h4>
+                    <p>172/1, Nalini Apartment, Bidhanpally, Kolkata, West Bengal, India, 700 084</p>
+                </div>
+
+                <div class="info-box">
+                    <h4>📞 Call Us</h4>
+                    <p>+91 96798 72219 // 033 2410 0189</p>
+                </div>
+
+                <div class="info-box">
+                    <h4>✉ Email</h4>
+                    <p>amsmanpower25@gmail.com</p>
+                </div>
+
+            </div>
+
+            <!-- Right Form -->
+            <div class="contact-form">
+                <form id="contactForm">
+                    <input type="text" placeholder="Full Name" required>
+                    <input type="email" placeholder="Email Address" required>
+                    <input type="tel" placeholder="Phone Number">
+                    <textarea placeholder="Your Message" rows="5" required></textarea>
+
+                    <button type="submit" class="contact-btn">
+                        <span class="contact-text">Send Message</span>
+                        <span class="contact-spinner"></span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- Admin Login Modal -->
+<div class="login-modal" id="loginModal">
+    <div class="login-modal-content">
+        <span class="login-close-btn" onclick="closeLoginModal()">&times;</span>
+        <h2>Admin Login</h2>
+
+        <form id="adminLoginForm">
+            <input type="text" id="adminUsername" placeholder="Username" required>
+            <input type="password" id="adminPassword" placeholder="Password" required>
+
+            <button type="submit" class="login-btn">
+                <span class="login-text">Login</span>
+                <div class="login-spinner"></div>
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-container">
+
+        <p class="copyright">
+            © 2026 AMS Resources. All Rights Reserved. Developed by Souvik.
+        </p>
+
+        <button class="admin-login-btn" onclick="openLoginModal()">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                 class="admin-icon" 
+                 fill="none" 
+                 viewBox="0 0 24 24" 
+                 stroke="currentColor">
+                <path stroke-linecap="round" 
+                      stroke-linejoin="round" 
+                      stroke-width="2" 
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            <span>Admin Login</span>
+        </button>
+
+    </div>
+</footer>
+
+<script>
+
+/* Shrink Navbar on Scroll */
+window.addEventListener("scroll", function(){
+    const navbar = document.querySelector(".navbar");
+    if(window.scrollY > 50){
+        navbar.classList.add("shrink");
+    } else {
+        navbar.classList.remove("shrink");
+    }
+});
+
+function toggleMenu(){
+    document.getElementById("navLinks").classList.toggle("active");
+}
+
+/* Mobile dropdown toggle */
+const aboutDropdown = document.getElementById("aboutDropdown");
+const servicesDropdown = document.getElementById("servicesDropdown");
+
+function handleDropdown(dropdown){
+    dropdown.querySelector("a").addEventListener("click", function(e){
+        if(window.innerWidth <= 768){
+            e.preventDefault();
+            dropdown.classList.toggle("open");
+        }
+    });
+}
+
+handleDropdown(aboutDropdown);
+handleDropdown(servicesDropdown);
+
+/* Scroll animation */
+const cards = document.querySelectorAll('.card');
+
+window.addEventListener('scroll', () => {
+    cards.forEach(card => {
+        const cardTop = card.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        if(cardTop < windowHeight - 50){
+            card.classList.add('show');
+        }
+    });
+});
+
+/* About Section Scroll Animation */
+const aboutText = document.querySelector('.about-text');
+const aboutImage = document.querySelector('.about-image');
+
+window.addEventListener('scroll', () => {
+    const trigger = window.innerHeight - 100;
+
+    if(aboutText.getBoundingClientRect().top < trigger){
+        aboutText.classList.add('show');
+    }
+
+    if(aboutImage.getBoundingClientRect().top < trigger){
+        aboutImage.classList.add('show');
+    }
+});
+
+
+/* Counter Animation */
+const counters = document.querySelectorAll('.counter');
+let counterStarted = false;
+
+window.addEventListener('scroll', () => {
+    const sectionTop = document.querySelector('.counter-section').getBoundingClientRect().top;
+
+    if(sectionTop < window.innerHeight && !counterStarted){
+        counterStarted = true;
+
+        counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            let count = 0;
+            const speed = target / 100;
+
+            const updateCount = () => {
+                if(count < target){
+                    count += speed;
+                    counter.innerText = Math.ceil(count);
+                    setTimeout(updateCount, 20);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+
+            updateCount();
+        });
+    }
+});
+
+
+/* ================= GALLERY ================= */
+
+const galleryItems = document.querySelectorAll('.gallery-item');
+const galleryModal = document.getElementById('galleryModal');
+const galleryContent = document.getElementById('galleryContent');
+const closeGallery = document.querySelector('.close-gallery');
+const nextBtn = document.querySelector('.gallery-arrow.next');
+const prevBtn = document.querySelector('.gallery-arrow.prev');
+
+let currentIndex = 0;
+
+/* Scroll Reveal for Gallery */
+const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            entry.target.classList.add('active');
+        }
+    });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.reveal').forEach(el => {
+    revealObserver.observe(el);
+});
+
+/* Open Modal */
+function openGallery(index){
+    currentIndex = index;
+    const item = galleryItems[index];
+    const type = item.getAttribute('data-type');
+    const src = item.getAttribute('data-src');
+
+    galleryContent.innerHTML = "";
+
+    if(type === "image"){
+        const img = document.createElement("img");
+        img.src = src;
+        galleryContent.appendChild(img);
+    }
+
+    if(type === "video"){
+        const video = document.createElement("video");
+        video.src = src;
+        video.controls = true;
+        video.autoplay = true;
+        galleryContent.appendChild(video);
+    }
+
+    galleryModal.style.display = "flex";
+}
+
+galleryItems.forEach((item, index) => {
+    item.addEventListener('click', () => openGallery(index));
+});
+
+/* Next / Prev */
+function showNext(){
+    currentIndex = (currentIndex + 1) % galleryItems.length;
+    openGallery(currentIndex);
+}
+
+function showPrev(){
+    currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+    openGallery(currentIndex);
+}
+
+nextBtn.addEventListener('click', showNext);
+prevBtn.addEventListener('click', showPrev);
+
+closeGallery.addEventListener('click', closeGalleryModal);
+
+galleryModal.addEventListener('click', (e)=>{
+    if(e.target === galleryModal){
+        closeGalleryModal();
+    }
+});
+
+function closeGalleryModal(){
+    galleryModal.style.display = "none";
+    galleryContent.innerHTML = "";
+}
+
+/* Keyboard Support */
+document.addEventListener('keydown', (e)=>{
+    if(galleryModal.style.display === "flex"){
+        if(e.key === "ArrowRight") showNext();
+        if(e.key === "ArrowLeft") showPrev();
+        if(e.key === "Escape") closeGalleryModal();
+    }
+});
+
+/* Apply Modal Functions */
+
+function openModal(){
+    document.getElementById("applyModal").classList.add("active");
+}
+
+function closeModal(){
+    document.getElementById("applyModal").classList.remove("active");
+}
+
+/* Close modal when clicking outside */
+window.addEventListener("click", function(e){
+    const modal = document.getElementById("applyModal");
+    if(e.target === modal){
+        modal.classList.remove("active");
+    }
+});
+
+/* CV Upload Form Submission */
+document.getElementById("applyForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const form = this;
+    const submitBtn = document.getElementById("submitBtn");
+    
+    submitBtn.classList.add("loading");
+    submitBtn.disabled = true;
+
+    // Get form values using name attributes from the form
+    const formData = new FormData(form);
+
+    // Send to server
+    fetch("/upload-cv", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => {
+        submitBtn.classList.remove("loading");
+        submitBtn.disabled = false;
+
+        if(response.ok || response.redirected){
+            alert("Application Submitted Successfully ✓");
+            form.reset();
+            closeModal();
+        } else {
+            alert("Failed to submit application. Please try again.");
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        submitBtn.classList.remove("loading");
+        submitBtn.disabled = false;
+        alert("Failed to submit application. Please try again.");
+    });
+});
+
+/* ================= TESTIMONIAL SLIDER ================= */
+
+const track = document.querySelector('.testimonial-track');
+const slides = document.querySelectorAll('.testimonial-card');
+const nextArrow = document.querySelector('.arrow.right');
+const prevArrow = document.querySelector('.arrow.left');
+const dotsContainer = document.querySelector('.dots');
+
+let slideIndex = 0;
+
+/* Create Dots */
+slides.forEach((_, i) => {
+    const dot = document.createElement('span');
+    if(i === 0) dot.classList.add('active');
+    dotsContainer.appendChild(dot);
+
+    dot.addEventListener('click', () => {
+        slideIndex = i;
+        updateSlider();
+    });
+});
+
+function updateSlider(){
+    track.style.transform = `translateX(-${slideIndex * 100}%)`;
+    document.querySelectorAll('.dots span').forEach(dot => dot.classList.remove('active'));
+    document.querySelectorAll('.dots span')[slideIndex].classList.add('active');
+}
+
+nextArrow.addEventListener('click', () => {
+    slideIndex = (slideIndex + 1) % slides.length;
+    updateSlider();
+});
+
+prevArrow.addEventListener('click', () => {
+    slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+    updateSlider();
+});
+
+/* Auto Slide */
+setInterval(() => {
+    slideIndex = (slideIndex + 1) % slides.length;
+    updateSlider();
+}, 5000);
+
+/* Contact Form Submit */
+document.getElementById("contactForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const form = this;
+    const btn = form.querySelector(".contact-btn");
+    const originalText = btn.querySelector(".contact-text").innerText;
+    
+    btn.classList.add("loading");
+    btn.disabled = true;
+
+    // Get values directly from inputs
+    const inputs = form.querySelectorAll("input, textarea");
+    const data = {
+        name: inputs[0].value,
+        email: inputs[1].value,
+        contact: inputs[2].value,
+        message: inputs[3].value
+    };
+
+    fetch("/submit-message", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        btn.classList.remove("loading");
+        btn.disabled = false;
+
+        if (data.success) {
+            btn.querySelector(".contact-text").innerText = "Message Sent ✓";
+            form.reset();
+            
+            setTimeout(() => {
+                btn.querySelector(".contact-text").innerText = originalText;
+            }, 2000);
+        } else {
+            alert("Failed to send message. Please try again.");
+            btn.querySelector(".contact-text").innerText = originalText;
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        btn.classList.remove("loading");
+        btn.disabled = false;
+        alert("Failed to send message. Please try again.");
+    });
+});
+
+/* ================= LOGIN MODAL ================= */
+
+function openLoginModal(){
+    document.getElementById("loginModal").style.display = "flex";
+}
+
+function closeLoginModal(){
+    document.getElementById("loginModal").style.display = "none";
+}
+
+window.addEventListener("click", function(e){
+    const loginModal = document.getElementById("loginModal");
+    if(e.target === loginModal){
+        loginModal.style.display = "none";
+    }
+});
+
+/* Login Simulation */
+document.getElementById("adminLoginForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const username = document.getElementById("adminUsername").value;
+    const password = document.getElementById("adminPassword").value;
+
+    fetch("/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    })
+    .then(response => {
+        if(response.ok){
+            return response.json();
+        } else {
+            throw new Error("Invalid credentials");
+        }
+    })
+    .then(data => {
+        if(data.success){
+            window.location.href = "/admin-dashboard";
+        }
+    })
+    .catch(error => {
+        alert("Login Failed ❌ Invalid username or password");
+    });
+});
+
+/* ================= MARQUEE FETCH ================= */
+// Fetch marquee text from server
+function loadMarquee() {
+    fetch("/get-marquee")
+        .then(response => response.json())
+        .then(data => {
+            const marqueeText = document.getElementById("marqueeText");
+            if (marqueeText && data.text) {
+                marqueeText.textContent = data.text;
+            }
+        })
+        .catch(err => {
+            console.log("Using default marquee text");
+        });
+}
+
+// Load marquee on page load
+loadMarquee();
+
+/* ================= LOAD JOBS FROM SERVER ================= */
+function loadJobs() {
+    fetch("/get-jobs")
+        .then(response => response.json())
+        .then(jobs => {
+            const container = document.getElementById("jobsContainer");
+            
+            if (!container) return;
+            
+            if (jobs.length === 0) {
+                container.innerHTML = '<div class="no-jobs">No current requirements. Check back soon!</div>';
+                return;
+            }
+            
+            container.innerHTML = "";
+            
+            jobs.forEach(job => {
+                const jobCard = document.createElement("div");
+                jobCard.className = "job-card";
+                jobCard.innerHTML = `
+                    <div class="job-header">
+                        <span class="urgent-badge">Urgent Requirement</span>
+                        <h3>for ${job.company || 'Company'}</h3>
+                    </div>
+                    <div class="job-position">
+                        ${job.positions || 'Position'}
+                    </div>
+                    <div class="job-details">
+                        <div class="job-info">
+                            📍 <span>${job.place || 'Location'}</span>
+                        </div>
+                        <div class="job-info">
+                            ⏰ <span>${job.job_type || 'Full Time'}</span>
+                        </div>
+                    </div>
+                    <div class="job-buttons">
+                        <button class="btn-view">View Details</button>
+                        <button class="btn-apply" onclick="openModal()">Apply Now</button>
+                    </div>
+                `;
+                container.appendChild(jobCard);
+            });
+        })
+        .catch(err => {
+            console.error("Error loading jobs:", err);
+            const container = document.getElementById("jobsContainer");
+            if (container) {
+                container.innerHTML = '<div class="no-jobs">Unable to load requirements. Please try again later.</div>';
+            }
+        });
+}
+
+// Load jobs on page load
+document.addEventListener("DOMContentLoaded", loadJobs);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | AMS Resources</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #003399;
+            --accent-red: #ff3300;
+            --light-bg: #f4f7f9;
+            --dark-text: #333;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+        }
+
+        /* Header & Navigation */
+        header {
+            background: var(--white);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+        }
+
+        .logo-text p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: var(--accent-red);
+            font-weight: bold;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .download-btn {
+            background-color: var(--accent-red);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--accent-red);
+        }
+
+        .download-btn:hover {
+            background-color: transparent;
+            color: var(--accent-red);
+            box-shadow: 0 4px 15px rgba(255, 51, 0, 0.2);
+        }
+
+        @media (max-width: 600px) {
+            .download-btn span { display: none; } /* Show only icon on small mobile */
+            .download-btn { padding: 10px; }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 51, 153, 0.8), rgba(0, 51, 153, 0.8)), url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 10%;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1100px;
+            margin: -50px auto 50px;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        section { margin-bottom: 40px; }
+
+        h2 {
+            color: var(--primary-blue);
+            border-left: 5px solid var(--accent-red);
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+
+        .director-msg {
+            background: #fff5f2;
+            padding: 30px;
+            border-radius: 10px;
+            font-style: italic;
+            border: 1px solid #ffe0d6;
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        .icon-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .icon-list li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon-list i { color: var(--accent-red); }
+
+        /* License Badge */
+        .license-bar {
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 50px 10% 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container { margin: 20px; padding: 20px; }
+            .hero { padding: 40px 5%; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-container">
+        <img src="/static/assets/AMS logo.jpg" alt="AMS Logo" height="60">
+        <div class="logo-text">
+            <h1>AMS RESOURCES</h1>
+            <p>MANPOWER CONSULTANCY</p>
+        </div>
+    </div>
+
+    <div class="header-actions">
+        <a href="/static/brochure/AMS RESOURCES BROCHURE.pdf" class="download-btn" download>
+            <i class="fa-solid fa-file-arrow-down"></i>
+            <span>Brochure</span>
+        </a>
+    </div>
+</header>
+
+<section class="hero">
+    <h1>Empowering Businesses Through Global Talent</h1>
+    <p>Connecting skilled professionals with world-class opportunities.</p>
+</section>
+
+<div class="container">
+    <div class="license-bar">
+        <strong>Recruiting License No:</strong> B-3226/WB/PER/100/5/11224/2025 | <strong>RA ID:</strong> RA6455390
+    </div>
+
+    <section id="about">
+        <h2>About Us</h2>
+        <p>AMS Resources is a professionally managed manpower recruitment consultancy specializing in domestic and overseas staffing solutions. We believe that people are the most valuable asset of any organization.</p>
+        <p>With a strong network across India—including Gujarat, Mumbai, Chennai, and Delhi—we source, screen, and deploy highly qualified professionals across diverse industries from Oil & Gas to IT and Healthcare.</p>
+    </section>
+
+    <section id="director">
+        <h2>Message From The Director</h2>
+        <div class="director-msg">
+            <p>"Since our inception, our focus has been clear — to deliver dependable, transparent, and professional manpower recruitment solutions that add measurable value to our clients’ operations. We ensure every candidate we deploy is aligned with our client’s expectations."</p>
+            <p><strong>— Director, AMS Resources</strong></p>
+        </div>
+    </section>
+
+    <section id="vision-mission" class="grid">
+        <div class="card">
+            <h3><i class="fa-solid fa-eye"></i> Our Vision</h3>
+            <p>To become a globally recognized and trusted manpower recruitment partner, delivering reliable workforce solutions that empower businesses and create meaningful employment worldwide.</p>
+        </div>
+        <div class="card">
+            <h3><i class="fa-solid fa-bullseye"></i> Our Mission</h3>
+            <ul class="icon-list">
+                <li><i class="fa-solid fa-check"></i> Quality manpower tailored to requirements</li>
+                <li><i class="fa-solid fa-check"></i> Transparent & ethical recruitment</li>
+                <li><i class="fa-solid fa-check"></i> Compliance with international standards</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="services">
+        <h2>Our Services</h2>
+        <div class="grid">
+            <ul class="icon-list">
+                <li><i class="fa-solid fa-circle-check"></i> Trade & Medical Testing</li>
+                <li><i class="fa-solid fa-circle-check"></i> Documentation & Visa Processing</li>
+                <li><i class="fa-solid fa-circle-check"></i> Deployment Management</li>
+            </ul>
+            <ul class="icon-list">
+                <li><i class="fa-solid fa-circle-check"></i> Pre-Qualification Interviews</li>
+                <li><i class="fa-solid fa-circle-check"></i> Post-Deployment Support</li>
+                <li><i class="fa-solid fa-circle-check"></i> Guarantee Replacement Policy</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="expertise">
+        <h2>Fields of Expertise</h2>
+        <div class="grid">
+            <div class="card">
+                <h4>Mechanical & Civil</h4>
+                <small>Welders, Fabricators, Scaffolders, Carpenters, Masons, Riggers.</small>
+            </div>
+            <div class="card">
+                <h4>Electrical & Technical</h4>
+                <small>Electrical/Instrument Technicians, Duct Fitters, Plumbers.</small>
+            </div>
+            <div class="card">
+                <h4>Specialized Sectors</h4>
+                <small>Healthcare, IT, Airport Operations, Marine Services, Oil & Gas.</small>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer>
+    <div class="footer-grid">
+        <div>
+            <h3>AMS RESOURCES</h3>
+            <p>Your trusted partner for overseas and domestic manpower recruitment.</p>
+        </div>
+        <div>
+            <h3>Contact Us</h3>
+            <p><i class="fa-solid fa-location-dot"></i> 172/1, Nalini Apartment, Bidhanpally, Kolkata – 700084</p>
+            <p><i class="fa-solid fa-phone"></i> +91 9679872219 | 033 2410 0189</p>
+            <p><i class="fa-solid fa-envelope"></i> amsmanpower25@gmail.com</p>
+        </div>
+        <div>
+            <h3>Global Presence</h3>
+            <p>Middle East | USA | Europe | Singapore</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; 2026 AMS Resources. All Rights Reserved.
+    </div>
+</footer>
+
+</body>
+</html>

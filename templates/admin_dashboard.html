@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="/static/css/dashboard-style.css">
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <header class="topbar" id="topbar">
+    
+        <!-- Hamburger Menu for Mobile -->
+        <div class="hamburger" onclick="toggleSidebar()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    
+        <div class="profile" onclick="toggleProfileMenu()">
+            <span class="profile-info">
+                <strong>Mr. Tamilmathan</strong><br>
+                <small>Super Admin</small>
+            </span>
+        
+            <div class="avatar">T</div>          
+        
+            <!-- DROPDOWN -->
+            <div class="profile-dropdown" id="profileDropdown">
+                <a href="#">👤 My Profile</a>
+                <a href="#">⚙️ Account Settings</a>
+                <a href="#" onclick="showSection('change-password-panel')">🔒 Change Password</a>
+                <div class="divider"></div>
+                <a href="/logout">❌ Logout</a>
+            </div>
+        </div>
+
+        <div class="bell" onclick="showSection('activity-panel')" title="Notifications">
+            🔔
+            <span class="notify-dot" id="notifyDot"></span>
+        </div>  
+
+    </header>    
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+
+        <!-- Dashboard -->
+        <a href="#" onclick="showSection('dashboard-panel'); return false;">
+            📊 Dashboard
+        </a>        
+
+        <!-- Job Section -->
+        <div>
+            <button onclick="toggleMenu('jobMenu', this)">
+                <span>💼 Job Section</span>
+                <span class="arrow transition">&#x25B8</span>
+            </button>
+
+            <div id="jobMenu">
+                <a href="#" onclick="showSection('add-job-panel'); return false;">Add Job</a>
+                <a href="#" onclick="showSection('job-list-panel'); return false;">Manage Jobs</a>
+            </div>
+        </div>
+
+        <!-- Resumes -->
+        <a href="#" onclick="showSection('cv-panel'); return false;">
+            📄 Resumes
+        </a>        
+
+        <!-- Notifications -->
+        <a href="#" onclick="showSection('activity-panel'); return false;">
+            🔔 Notifications
+        </a>
+
+        <!-- Messages -->
+        <a href="#" onclick="showSection('messages-panel'); return false;">
+            💬 Messages
+        </a>
+
+        <!-- Gallery -->
+        <div>
+            <button onclick="toggleMenu('galleryMenu', this)">
+                <span>🖼️ Gallery</span>
+                <span class="arrow transition">&#x25B8</span>
+            </button>
+
+            <div id="galleryMenu">
+                <a href="#" onclick="showSection('image-panel'); return false;">Images</a>
+                <a href="#" onclick="showSection('video-panel'); return false;">Videos</a>
+            </div>
+        </div>
+
+        <!-- Staff Section -->
+        <div>
+            <button onclick="toggleMenu('staffMenu', this)">
+                <span>👥 Staff Section</span>
+                <span class="arrow transition">&#x25B8</span>
+            </button>
+
+            <div id="staffMenu">
+                <a href="#" onclick="showSection('staff-panel'); return false;">Add Staff</a>
+                <a href="#" onclick="showSection('staff-accounts'); return false;">Manage Staff</a>
+                <a href="#">Roles & Permissions</a>
+            </div>
+        </div>
+
+        <!-- Settings -->
+        <div>
+            <button onclick="toggleMenu('settingsMenu', this)">
+                <span>⚙️ Settings</span>
+                <span class="arrow transition">&#x25B8</span>
+            </button>
+
+            <div id="settingsMenu">
+                <a href="#" onclick="showSection('general-settings-panel'); return false;">General Settings</a>
+                <a href="#" onclick="showSection('change-password-panel'); return false;">Change Password</a>
+                <a href="#" onclick="showSection('logs-panel'); return false;">System Logs</a>
+            </div>
+        </div>
+
+        <div class="clock">
+            <div id="time"></div>
+            <div id="date"></div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+        <div id="dashboard-panel" class="section">
+
+            <!-- HEADER -->
+            <div class="panel-header">
+                <h1>Dashboard</h1>
+            </div>
+
+            <!-- STATS -->
+            <div class="cards">
+                <div class="card total-apps">
+                    <p>Total Applications</p>
+                    <h2>{{ cvs|length }}</h2>
+                </div>
+
+                <div class="card active-jobs">
+                    <p>Active Jobs</p>
+                    <h2>{{ requirements|length }}</h2>
+                </div>
+
+                <div class="card messages">
+                    <p>Messages</p>
+                    <h2>{{ messages|length }}</h2>
+                </div>
+
+                <div class="card downloads">
+                    <p>Resume Downloads</p>
+                    <h2>{{ cvs|length }}</h2>
+                </div>
+            </div>
+
+            <!-- CHART + STATUS -->
+            <div class="grid">
+
+                <!-- CHART BOX -->
+                <div class="chart-box">
+                    <h3>Weekly Applications</h3>
+                    <canvas id="chart"></canvas>
+                </div>
+
+                <div>
+
+                    <!-- ACTION BOX -->
+                    <div class="action-box">
+                        <div class="action-header">
+                            <h3>Quick Actions</h3>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary" onclick="showSection('add-job-panel'); return false;">➕ Add Job</button>
+                            <button class="btn btn-primary" onclick="openMarqueeBox()">📝 Update Marquee</button>
+                        </div>
+                    </div>
+
+                    <div class="card" id="serverStatusCard">
+                        <h3>Web Server Status</h3>
+                    
+                        <!-- Server -->
+                        <div class="status-row">
+                            <div>
+                                <span id="serverDot" class="dot"></span>
+                                <span>Server</span>
+                            </div>
+                            <span id="serverText" class="status-text">Online</span>
+                        </div>
+                    
+                        <!-- SSL -->
+                        <div class="status-row">
+                            <div>
+                                <span id="sslDot" class="dot"></span>
+                                <span>SSL Certificate</span>
+                            </div>
+                            <span id="sslText" class="status-text"></span>
+                        </div>
+                    
+                        <!-- Backup -->
+                        <div class="status-row">
+                            <div>
+                                <span id="backupDot" class="dot"></span>
+                                <span>Last Backup</span>
+                            </div>
+                            <span id="backupText">Today, 04:00 AM</span>
+                        </div>
+                    
+                        <div class="auto-text">Auto-monitoring enabled</div>
+
+                    </div>
+                </div>         
+
+            </div>
+
+            <div class="grid">
+                <!-- ACTIVE JOBS -->
+                <div class="active-jobs-box">
+                    <h3>Active Jobs</h3>
+                    <div class="table-wrapper">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Company Name</th>
+                                    <th>Place</th>
+                                    <th>Positions</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if requirements %}
+                                {% for job in requirements %}
+                                <tr>
+                                    <td>{{ job.company }}</td>
+                                    <td>{{ job.place }}</td>
+                                    <td>{{ job.positions }}</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="4" style="text-align: center;">No active jobs</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- MARQUEE INPUT -->
+                <div class="marquee-box" id="marquee-box">
+                    <h3>Update Notification Marquee</h3>
+
+                    <textarea id="marqueeInput" placeholder="Type notification..."></textarea>
+                    <small id="wordCount">0 / 250 Characters</small>
+
+                    <div class="marquee-actions">
+                        <div class="emoji-wrapper">
+                            <button type="button" class="emoji-btn" onclick="toggleEmojiPanel()">😊 Emoji</button>
+                            <div class="emoji-panel" id="emojiPanel"></div>
+                        </div>
+
+                        <button onclick="saveMarquee()" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADD JOB PANEL -->
+        <div class="section panel" id="add-job-panel">
+
+            <div class="panel-header">
+                <h1>Add Job</h1>
+            </div>
+
+            <form id="jobForm" class="card">
+
+                <div class="form-grid">
+
+                    <!-- Company -->
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" id="companyName" class="form-control" required>
+                    </div>
+
+                    <!-- Place -->
+                    <div class="form-group">
+                        <label>Place</label>
+                        <input type="text" id="place" class="form-control" required>
+                    </div>
+
+                    <!-- Position -->
+                    <div class="form-group">
+                        <label>Positions</label>
+                        <input type="text" id="positions" placeholder="e.g. Electrician, Welder" class="form-control" required>
+                    </div>
+
+                    <!-- Job Type -->
+                    <div class="form-group">
+                        <label>Time Period</label>
+                        <select id="jobType" class="form-control" required>
+                            <option value="">Select</option>
+                            <option>Full Time</option>
+                            <option>Part Time</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <!-- Details Upload -->
+                <div class="form-group full">
+                    <label>Upload Job Details</label>
+
+                    <div class="file-upload-box" onclick="document.getElementById('jobFile').click()">
+                        <h4>Click or Drag file here</h4>
+                        <p>PDF, DOC, DOCX allowed</p>
+                    </div>
+
+                    <input type="file" id="jobFile" class="form-control" accept=".pdf,.doc,.docx" hidden>
+                    <p id="fileName" class="file-name"></p>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Add Job
+                </button>
+
+            </form>
+        </div>
+
+        <!-- JOB LIST PANEL -->
+        <div class="section panel" id="job-list-panel">
+
+            <div class="panel-header">
+                <h1>Manage Jobs</h1>
+            </div>
+
+            <div class="card">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Position</th>
+                            <th>Place</th>
+                            <th>Type</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="jobTableBody">
+                        <!-- Jobs inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- JOB DETAILS DOCUMENT MODAL -->
+        <div class="modal" id="docModal">
+            <div class="modal-content large">
+
+                <span class="close-modal" onclick="closeDocModal()">✖</span>
+
+                <h2>Job Details</h2>
+
+                <iframe id="docViewer" src="" frameborder="0"></iframe>
+
+            </div>
+        </div>
+
+        <!-- CV PANEL -->
+        <div class="section panel" id="cv-panel">
+
+            <div class="panel-header">
+                <h1>Uploaded Resumes</h1>
+                <button class="btn btn-danger delete-btn" onclick="deleteSelected()">
+                    🗑 Delete Selected
+                </button>
+            </div>
+        
+            <div class="table-wrapper">
+                <div class="status-legend">
+                    <span><span class="legend-dot pending"></span> Pending</span>
+                    <span><span class="legend-dot reviewed"></span> Reviewed</span>
+                </div>
+                
+                <table class="table" id="cvTable">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Contact</th>
+                            <th>Uploaded Date</th>
+                            <th>Status</th>
+                            <th>CV</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if cvs %}
+                        {% for cv in cvs %}
+                        <tr>
+                            <td><input type="checkbox" class="rowCheck" data-id="{{ cv.id }}"></td>
+                            <td>{{ cv.name }}</td>
+                            <td>{{ cv.email if cv.email else 'N/A' }}</td>
+                            <td>{{ cv.contact if cv.contact else 'N/A' }}</td>
+                            <td>{{ cv.created_at.strftime('%d %b %Y') if cv.created_at else 'N/A' }}</td>
+                            <td>
+                                <span class="badge badge-warning" onclick="toggleCVStatus(this)">Pending</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-secondary view-btn" onclick="previewCV('/static/uploads/{{ cv.filename }}')">View</button>
+                                <a href="/static/uploads/{{ cv.filename }}" class="download" download>Download</a>
+                            </td>
+                            <td>
+                                <a href="/delete-cv/{{ cv.id }}" class="btn btn-danger" onclick="return confirm('Delete this CV?')">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="8" style="text-align: center;">No resumes uploaded yet</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <button type="button" onclick="prevPage()">Prev</button>
+                    <span id="pageInfo"></span>
+                    <button type="button" onclick="nextPage()">Next</button>
+                </div>                
+            </div>
+
+            <!-- CV Preview Modal -->
+            <div id="cvModal" class="modal">
+                <div class="modal-content large">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <iframe id="cvFrame" src=""></iframe>
+                </div>
+            </div>
+        
+        </div>
+
+        <!-- ACTIVITY ALERT PANEL -->
+        <div class="section panel" id="activity-panel">
+
+            <div class="panel-header">
+                <h1>Notifications</h1>
+                <span class="live-dot"></span>
+            </div>
+
+            <div class="activity-list" id="activityList">
+                <!-- Dynamic notifications will be loaded here -->
+                <div class="loading-notifications">Loading notifications...</div>
+            </div>
+
+        </div>
+
+        <!-- MESSAGES PANEL -->
+        <div class="section panel" id="messages-panel">
+
+            <div class="panel-header">
+                <h1>Contact Messages</h1>
+                <button class="btn btn-danger" onclick="deleteSelectedMessages()">Delete Selected</button>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="table" id="messagesTable">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAllMessages"></th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Contact No</th>
+                            <th>ID</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% if messages %}
+                        {% for message in messages %}
+                        <tr class="unread">
+                            <td><input type="checkbox" class="msgCheck" data-id="{{ message.id }}"></td>
+                            <td>{{ message.name }}</td>
+                            <td>{{ message.email }}</td>
+                            <td>{{ message.contact }}</td>
+                            <td>{{ message.id }}</td>
+                            <td><span class="badge badge-danger">New</span></td>
+                            <td>
+                                <button onclick="viewMessage('{{ message.name }}', '{{ message.email }}', '{{ message.message }}')" class="btn btn-secondary view-btn">View</button>
+                                <a href="/delete-message/{{ message.id }}" class="btn btn-danger" onclick="return confirm('Delete this message?')">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="7" style="text-align: center;">No messages yet</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- MESSAGE VIEW MODAL -->
+            <div id="messageModal" class="modal">
+                <div class="modal-content large">
+                    <span class="close" onclick="closeMessageModal()">&times;</span>
+                    <h3 id="msgName"></h3>
+                    <p id="msgEmail"></p>
+                    <hr>
+                    <p id="msgContent"></p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- IMAGE MANAGEMENT PANEL -->
+        <div class="section panel" id="image-panel">
+
+            <div class="panel-header">
+                <h1>Image Manager</h1>
+            </div>
+
+            <!-- Upload Row -->
+            <div class="card">
+
+                <!-- Drag & Drop Box -->
+                <div id="dropZone" class="drop-zone">
+                    <p>📁 Drag & Drop Image Here</p>
+                    <span>or</span>
+                    <button type="button" class="browse-btn">Browse Files</button>
+                    <input type="file" id="imageUpload" accept="image/*" class="form-control" hidden>
+                </div>
+            
+                <!-- Preview -->
+                <div class="preview-box" id="previewBox">
+                    <img id="previewImage" src="" alt="Preview">
+                </div>
+            
+                <!-- Title -->
+                <div class="upload-field">
+                    <label>Image Title</label>
+                    <input type="text" id="imageTitle" class="form-control" placeholder="Enter image title">
+                </div>
+            
+                <!-- Progress -->
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            
+                <!-- Upload Button -->
+                <button class="btn btn-primary" onclick="uploadImage()">Upload Image</button>
+            
+            </div>
+            
+            <!-- Toast -->
+            <div id="toast" class="toast">✅ Upload Successful</div>
+
+            <!-- GALLERY DISPLAY -->
+            <div class="gallery-grid" id="galleryGrid">
+
+                <!-- SAMPLE IMAGE -->
+                <div class="card">
+                    <img src="/static/images/gallery1.jpg" alt="Uploaded image">
+
+                    <button class="delete-img" onclick="deleteImage(this)">✖</button>
+
+                    <div class="gallery-info">
+                        <p class="img-title">Office Banner</p>
+                        <span class="img-date">19 Feb 2026</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- IMAGE PREVIEW MODAL -->
+        <div id="imageModal" class="modal">
+            <div class="modal-content large">
+                <span class="close" onclick="closeImageModal()">&times;</span>
+                <img id="modalImage" style="width:100%; border-radius:8px;">
+                <p id="modalTitle" style="margin-top:10px;"></p>
+            </div>
+        </div>
+
+        <!-- VIDEO PANEL -->
+        <div class="section panel" id="video-panel">
+
+            <div class="panel-header">
+                <h1>Video Gallery</h1>
+            </div>
+
+            <!-- UPLOAD AREA -->
+            <div class="upload-box" id="videoUploadBox">
+                <input type="file" id="videoInput" accept="video/*" class="form-control" hidden>
+
+                <div class="upload-content">
+                    <p class="upload-title">Drag & Drop Videos Here</p>
+                    <p class="upload-sub">MP4, WebM • Max 100MB</p>
+                    <button class="btn btn-primary">Choose Video</button>
+                </div>
+
+                <!-- PROGRESS BAR -->
+                <div class="upload-progress" id="uploadProgress">
+                    <div class="progress-bar" id="videoProgressBar"></div>
+                </div>
+
+            </div>
+
+            <!-- VIDEO GRID -->
+            <div class="gallery-grid" id="videoGrid"></div>
+
+        </div>
+
+        <!-- VIDEO PLAYER MODAL -->
+        <div id="videoModal" class="modal">
+            <div class="modal-content large video-modal">
+                <span class="close" onclick="closeVideoModal()">&times;</span>
+
+                <video id="modalVideo" controls autoplay></video>
+
+                <p id="modalVideoTitle"></p>
+            </div>
+        </div>
+
+        <!-- STAFF MANAGEMENT PANEL -->
+        <div class="section panel" id="staff-panel">
+
+            <div class="panel-header">
+                <h1>Staff Management</h1>
+            </div>
+
+            <!-- STAFF FORM CARD -->
+            <div class="card">
+
+                <h3>Add New Staff</h3>
+
+                <form id="staffForm">
+
+                    <div class="staff-grid">
+
+                        <!-- Profile Image -->
+                        <div class="staff-image-upload">
+                            <div class="image-preview" id="staffPreview">
+                                <span>Photo</span>
+                            </div>
+                            <input type="file" id="staffImage" accept="image/*" class="form-control" hidden>
+                            <button type="button" class="btn btn-outline" onclick="document.getElementById('staffImage').click()">
+                                Upload Photo
+                            </button>
+                        </div>
+
+                        <!-- Name -->
+                        <div class="field">
+                            <label>Full Name</label>
+                            <input type="text" id="staffName" class="form-control" required>
+                        </div>
+
+                        <div class="field">
+                            <label>Father's Name</label>
+                            <input type="text" id="fatherName" class="form-control">
+                        </div>
+
+                        <div class="field">
+                            <label>Mother's Name</label>
+                            <input type="text" id="motherName" class="form-control">
+                        </div>
+
+                        <div class="field">
+                            <label>Date of Birth</label>
+                            <input type="date" id="dateofBirth" class="form-control">
+                        </div>
+
+                        <div class="field">
+                            <label>Gender</label>
+                            <select id="gender" class="form-control">
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label>Phone Number</label>
+                            <input type="tel" id="phone" class="form-control">
+                        </div>
+
+                        <div class="field">
+                            <label>Alternate Phone Number</label>
+                            <input type="tel" id="alternatePhone" class="form-control">
+                        </div>
+
+                        <div class="field">
+                            <label>Email</label>
+                            <input type="email" id="email" class="form-control">
+                        </div>
+
+                        <div class="field">
+                            <label>Marital Status</label>
+                            <select id="maritalStatus" class="form-control">
+                                <option>Single</option>
+                                <option>Married</option>
+                                <option>Divorced</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label>Blood Group</label>
+                            <select id="bloodGroup" class="form-control">
+                                <option>A+</option>
+                                <option>A-</option>
+                                <option>B+</option>
+                                <option>B-</option>
+                                <option>AB+</option>
+                                <option>AB-</option>
+                                <option>O+</option>
+                                <option>O-</option>
+                            </select>
+                        </div>
+
+                        <div class="field full">
+                            <label>Address</label>
+                            <textarea id="address" class="form-control"></textarea>
+                        </div>
+
+                        <div class="field">
+                            <label>Role</label>
+                            <select id="role" class="form-control">
+                                <option>Admin</option>
+                                <option>HR Manager</option>
+                                <option>Executive Head</option>
+                                <option>Accountant</option>
+                                <option>Receptionist</option>
+                                <option>Staff</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label>User ID</label>
+                            <input type="text" id="userid" class="form-control">
+                        </div>
+
+                        <div class="field password-field">
+                            <label>Password</label>
+                            <input type="password" id="password" class="form-control">
+                            <span class="toggle-pass" onclick="togglePassword()">👁</span>
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add Staff</button>
+
+                </form>
+            </div>
+
+        </div>
+
+        <!-- STAFF ACCOUNTS CONTROL -->
+        <div class="section panel" id="staff-accounts">
+
+            <div class="panel-header">
+                <h1>Staff Account Control</h1>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="table" id="accountsTable">
+                    <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Name</th>
+                            <th>User ID</th>
+                            <th>Role</th>
+                            <th>Account Status</th>
+                            <th>Login Access</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="accountsTableBody">
+                        <!-- accounts appear here -->
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- GENERAL SETTINGS PANEL -->
+        <div class="section panel" id="general-settings-panel">
+
+            <div class="panel-header">
+                <h1>General Settings</h1>
+                <p class="panel-sub">System tools & website management controls</p>
+            </div>
+
+            <div class="settings-grid">
+
+                <!-- DOWNLOAD CVS -->
+                <div class="card">
+                    <h3>Download All CVs</h3>
+                    <p>Download every uploaded resume in a single ZIP file.</p>
+                    <button class="btn btn-primary" onclick="downloadAllCVs()">
+                        Download ZIP
+                    </button>
+                </div>
+
+                <!-- CLEAR NOTIFICATIONS -->
+                <div class="card danger-card">
+                    <h3>Clear Notifications</h3>
+                    <p>Remove all system notifications permanently.</p>
+                    <button class="btn btn-danger" onclick="clearNotifications()">
+                        Clear Notifications
+                    </button>
+                </div>
+
+                <!-- CLEAR MESSAGES -->
+                <div class="settings-card danger-card">
+                    <h3>Clear Messages</h3>
+                    <p>Delete all contact messages from the database.</p>
+                    <button class="btn btn-danger" onclick="clearMessages()">
+                        Clear Messages
+                    </button>
+                </div>
+
+                <!-- EXPORT STAFF -->
+                <div class="card">
+                    <h3>Export Staff Data</h3>
+                    <p>Download staff details as Excel (.xlsx).</p>
+                    <button class="btn btn-success" onclick="exportStaffExcel()">
+                        Export Excel
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- FULL BACKUP -->
+            <div class="card">
+                <h3>Full Website Backup</h3>
+                <p>Download complete backup including database, uploads, and media.</p>
+                <button class="btn btn-primary" onclick="backupWebsite()">
+                    Create Backup
+                </button>
+            </div>
+
+            <!-- CLEAR CVS -->
+            <div class="card danger-card">
+                <h3>Clear CV Uploads</h3>
+                <p>Delete all uploaded resumes from storage.</p>
+                <button class="btn btn-danger" onclick="clearCVUploads()">
+                    Clear CV Files
+                </button>
+            </div>
+
+            <!-- WEBSITE DIRECTION -->
+            <div class="card">
+                <h2>Website Work Direction</h2>
+
+                <ul>
+                    <li><strong>Recruitment Focus:</strong> Highlight active job openings and simplify resume submission.</li>
+                    <li><strong>Trust Building:</strong> Showcase client companies, success stories, and testimonials.</li>
+                    <li><strong>Fast Communication:</strong> Ensure quick contact via WhatsApp, phone, and enquiry forms.</li>
+                    <li><strong>Candidate Experience:</strong> Provide clear job requirements and application guidance.</li>
+                    <li><strong>Admin Efficiency:</strong> Maintain updated job listings and timely response to messages.</li>
+                    <li><strong>SEO Growth:</strong> Regularly update content with hiring locations and job categories.</li>
+                </ul>
+
+                <p class="direction-note">
+                    Consistent updates and fast response times significantly improve credibility and lead conversion.
+                </p>
+            </div>
+
+            <!-- BACKUP PROGRESS MODAL -->
+            <div id="backupModal" class="modal">
+                <div class="modal-content small">
+            
+                <h3>Creating Website Backup</h3>
+            
+                <div class="progress-container">
+                    <div id="backupBar" class="progress-bar"></div>
+                </div>
+            
+                <div class="backup-stats">
+                    <span id="backupPercent">0%</span>
+                    <span id="fileCounter">0 / 0 files</span>
+                </div>
+            
+                <small id="backupStatus">Preparing files...</small>
+                <small id="backupETA">Estimating time...</small>
+            
+                <button class="btn btn-danger" onclick="cancelBackup()">Cancel Backup</button>
+            
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CHANGE PASSWORD PANEL -->
+        <div class="section panel" id="change-password-panel">
+
+            <div class="panel-header">
+                <h1>Change Password</h1>
+                <p class="panel-sub">Secure your account by updating your password</p>
+            </div>
+
+            <div class="card password-card">
+
+                <!-- STEP 1 -->
+                <div class="form-step active" id="step1">
+
+                    <h3>Account Verification</h3>
+
+                    <div class="form-group">
+                        <label>User ID</label>
+                        <input type="text" id="cpUserId" class="form-control" placeholder="Enter your user ID">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Old Password</label>
+                        <input type="password" id="cpOldPassword" class="form-control" placeholder="Enter old password">
+                    </div>
+
+                    <button class="btn btn-primary" onclick="verifyUser()">Verify Account</button>
+
+                </div>
+
+                <!-- STEP 2 -->
+                <div class="form-step" id="step2">
+
+                    <h3>OTP Verification</h3>
+                    <p class="otp-info">A security OTP has been sent to your registered email/mobile.</p>
+
+                    <div class="form-group">
+                        <label>Enter OTP</label>
+                        <input type="text" id="cpOtp" class="form-control" placeholder="Enter OTP">
+                    </div>
+
+                    <button class="btn btn-primary" onclick="verifyOtp()">Verify OTP</button>
+
+                    <small class="resend" onclick="resendOtp()">Resend OTP</small>
+
+                </div>
+
+                <!-- STEP 3 -->
+                <div class="form-step" id="step3">
+
+                    <h3>Create New Password</h3>
+
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" id="cpNewPassword" class="form-control" placeholder="Enter new password">
+                        <small id="strengthText"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="cpConfirmPassword" class="form-control" placeholder="Confirm password">
+                    </div>
+
+                    <button class="btn btn-success" onclick="changePassword()">Update Password</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SYSTEM LOGS PANEL -->
+        <div class="section panel" id="logs-panel">
+
+            <div class="panel-header">
+                <h1>System Logs</h1>
+
+                <div class="panel-actions">
+                    <input type="text" id="logSearch" class="form-control" placeholder="Search logs...">
+                    
+                    <select id="logFilter" class="form-control">
+                        <option value="all">All</option>
+                        <option value="info">Info</option>
+                        <option value="warning">Warning</option>
+                        <option value="error">Error</option>
+                        <option value="security">Security</option>
+                    </select>
+
+                    <button class="btn btn-outline" onclick="toggleAutoRefresh()">Auto Refresh</button>
+                    <button class="btn btn-primary" onclick="downloadLogs()">Download</button>
+                    <button class="btn btn-danger" onclick="clearLogs()">Clear</button>
+                </div>
+            </div>
+
+            <div class="logs-container" id="logsContainer">
+                <!-- logs will load here -->
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

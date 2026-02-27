@@ -178,19 +178,9 @@
         <p>Moments from our journey</p>
     </div>
 
-    <div class="gallery-container">
-
-        <!-- Image Item -->
-        <div class="gallery-item reveal" data-type="image" data-src="/static/images/gallery1.jpg">
-            <img src="/static/images/gallery1.jpg" alt="">
-        </div>
-
-        <!-- Video Item -->
-        <div class="gallery-item reveal" data-type="video" data-src="/static/videos/sample.mp4">
-            <video src="/static/videos/sample.mp4" muted></video>
-            <div class="video-overlay">▶</div>
-        </div>
-
+    <div class="gallery-container" id="galleryContainer">
+        <!-- Gallery items will be loaded dynamically from database -->
+        <div class="loading-gallery">Loading gallery...</div>
     </div>
 </section>
 
@@ -855,6 +845,47 @@ function loadJobs() {
 
 // Load jobs on page load
 document.addEventListener("DOMContentLoaded", loadJobs);
+
+/* ================= LOAD GALLERY FROM DATABASE ================= */
+function loadGallery() {
+    fetch("/get-gallery")
+        .then(response => response.json())
+        .then(galleryItems => {
+            const container = document.getElementById("galleryContainer");
+            if (!container) return;
+            if (galleryItems.length === 0) {
+                container.innerHTML = '<div class="no-gallery">No gallery items yet.</div>';
+                return;
+            }
+            container.innerHTML = "";
+            galleryItems.forEach(item => {
+                const galleryItem = document.createElement("div");
+                galleryItem.className = "gallery-item reveal";
+                galleryItem.setAttribute("data-type", item.media_type);
+                if (item.media_type === "video") {
+                    galleryItem.setAttribute("data-src", "/static/videos/" + item.filename);
+                    galleryItem.innerHTML = '<video src="/static/videos/' + item.filename + '" muted></video><div class="video-overlay">▶</div>';
+                } else {
+                    galleryItem.setAttribute("data-src", "/static/images/" + item.filename);
+                    galleryItem.innerHTML = '<img src="/static/images/' + item.filename + '" alt="' + (item.title || 'Gallery Image') + '">';
+                }
+                container.appendChild(galleryItem);
+            });
+            initGalleryEvents();
+        })
+        .catch(err => {
+            console.error("Error loading gallery:", err);
+        });
+}
+
+function initGalleryEvents() {
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    galleryItems.forEach((item, index) => {
+        item.addEventListener('click', () => openGallery(index));
+    });
+}
+
+document.addEventListener("DOMContentLoaded", loadGallery);
 
 </script>
 

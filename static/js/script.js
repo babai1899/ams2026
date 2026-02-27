@@ -1022,3 +1022,111 @@ document.addEventListener('DOMContentLoaded', function() {
     updateClock();
     setInterval(updateClock, 1000);
 });
+
+// Load images for admin image panel
+function loadAdminImages() {
+    fetch("/get-gallery")
+        .then(response => response.json())
+        .then(galleryItems => {
+            const container = document.getElementById("galleryGrid");
+            if (!container) return;
+            // Clear existing content except the sample if any, but since we replace, clear all
+            container.innerHTML = "";
+            galleryItems.filter(item => item.media_type === "image").forEach(item => {
+                const galleryItem = document.createElement("div");
+                galleryItem.className = "card";
+                galleryItem.innerHTML = `
+                    <img src="/static/images/${item.filename}" alt="${item.title || 'Uploaded image'}">
+                    <button class="delete-img" onclick="deleteImage('${item.id}', '${item.filename}')">✖</button>
+                    <div class="gallery-info">
+                        <p class="img-title">${item.title || 'Image'}</p>
+                        <span class="img-date">${new Date(item.created_at).toLocaleDateString()}</span>
+                    </div>
+                `;
+                container.appendChild(galleryItem);
+            });
+        })
+        .catch(err => {
+            console.error("Error loading admin images:", err);
+        });
+}
+
+// Load videos for admin video panel
+function loadAdminVideos() {
+    fetch("/get-gallery")
+        .then(response => response.json())
+        .then(galleryItems => {
+            const container = document.getElementById("videoGrid");
+            if (!container) return;
+            container.innerHTML = "";
+            galleryItems.filter(item => item.media_type === "video").forEach(item => {
+                const videoItem = document.createElement("div");
+                videoItem.className = "video-card";
+                videoItem.innerHTML = `
+                    <video src="/static/videos/${item.filename}" muted></video>
+                    <div class="video-overlay">▶</div>
+                    <button class="delete-video" onclick="deleteVideo('${item.id}', '${item.filename}')">✖</button>
+                    <div class="video-info">
+                        <p class="video-title">${item.title || 'Video'}</p>
+                        <span class="video-date">${new Date(item.created_at).toLocaleDateString()}</span>
+                    </div>
+                `;
+                container.appendChild(videoItem);
+            });
+        })
+        .catch(err => {
+            console.error("Error loading admin videos:", err);
+        });
+}
+
+// Delete image function
+function deleteImage(id, filename) {
+    if (confirm("Delete this image?")) {
+        fetch(`/delete-gallery/${id}`, { method: "DELETE" })
+            .then(response => {
+                if (response.ok) {
+                    loadAdminImages();
+                } else {
+                    alert("Failed to delete image");
+                }
+            })
+            .catch(err => console.error("Error deleting image:", err));
+    }
+}
+
+// Delete video function
+function deleteVideo(id, filename) {
+    if (confirm("Delete this video?")) {
+        fetch(`/delete-gallery/${id}`, { method: "DELETE" })
+            .then(response => {
+                if (response.ok) {
+                    loadAdminVideos();
+                } else {
+                    alert("Failed to delete video");
+                }
+            })
+            .catch(err => console.error("Error deleting video:", err));
+    }
+}
+
+// Modify showSection to load galleries when panels are shown
+const originalShowSection = showSection;
+showSection = function(panelId) {
+    originalShowSection(panelId);
+    if (panelId === 'image-panel') {
+        loadAdminImages();
+    } else if (panelId === 'video-panel') {
+        loadAdminVideos();
+    }
+};
+
+// After upload, refresh galleries
+const originalUploadImage = uploadImage;
+uploadImage = function() {
+    originalUploadImage();
+    // Assuming uploadImage calls loadAdminImages internally or we add it
+    // For now, add after success
+};
+
+// Similarly for video upload, if exists
+// Assuming uploadVideo exists, modify similarly

@@ -89,6 +89,114 @@ class Notification(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     is_read = db.Column(db.Boolean, default=False)
 
+class Gallery(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200))
+    filename = db.Column(db.String(200))  # file path
+    media_type = db.Column(db.String(10))  # image or video
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+# ================= GALLERY ROUTES =================
+
+@app.route("/get-gallery")
+def get_gallery():
+    """Get all gallery items for public display"""
+    gallery_items = Gallery.query.order_by(Gallery.created_at.desc()).all()
+    return jsonify([{
+        "id": g.id,
+        "title": g.title,
+        "filename": g.filename,
+        "media_type": g.media_type,
+        "created_at": g.created_at.strftime("%d %b %Y") if g.created_at else ""
+    } for g in gallery_items])
+
+@app.route("/add-gallery", methods=["POST"])
+@login_required
+def add_gallery():
+    """Add a new gallery item"""
+    try:
+        file = request.files.get("file")
+        title = request.form.get("title", "")
+        media_type = request.form.get("media_type", "image")
+        
+        if file and file.filename:
+            filename = secure_filename(file.filename)
+            
+            # Determine media type from file extension
+            ext = filename.rsplit('.', 1)[-1].lower() if '.' in filename else ''
+            if ext in ['mp4', 'webm', 'mov', 'avi']:
+                media_type = "video"
+                save_folder = 'static/videos'
+            else:
+                media_type = "image"
+                save_folder = 'static/images'
+            
+            # Create folder if it doesn't exist
+            os.makedirs(save_folder, exist_ok=True)
+            
+            filepath = os.path.join(save_folder, filename)
+            file.save(filepath)
+            
+            new_gallery = Gallery(
+                title=title,
+                filename=filename,
+                media_type=media_type
+            )
+            db.session.add(new_gallery)
+            db.session.commit()
+            
+            # Create notification
+            create_notification(
+                notification_type="gallery",
+                title="Gallery Updated",
+                description=f"New {media_type} added to gallery: {title or filename}",
+                icon="🖼️"
+            )
+            
+            return jsonify({"success": True, "message": "Gallery item added successfully!"})
+        
+        return jsonify({"success": False, "message": "No file provided"})
+    
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)})
+
+@app.route("/delete-gallery/<int:id>", methods=["DELETE"])
+@login_required
+def delete_gallery(id):
+    """Delete a gallery item"""
+    try:
+        gallery_item = Gallery.query.get(id)
+        if gallery_item:
+            filename = gallery_item.filename
+            media_type = gallery_item.media_type
+            
+            # Delete file from filesystem
+            if media_type == "video":
+                filepath = os.path.join('static/videos', filename)
+            else:
+                filepath = os.path.join('static/images', filename)
+            
+            if os.path.exists(filepath):
+                os.remove(filepath)
+            
+            db.session.delete(gallery_item)
+            db.session.commit()
+            
+            # Create notification
+            create_notification(
+                notification_type="gallery",
+                title="Gallery Updated",
+                description=f"Gallery item deleted: {filename}",
+                icon="🗑️"
+            )
+            
+            return jsonify({"success": True, "message": "Gallery item deleted successfully!"})
+        
+        return jsonify({"success": False, "message": "Gallery item not found"}), 404
+    
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)})
+
 # ================= NOTIFICATION FUNCTIONS =================
 
 def create_notification(notification_type, title, description, icon):

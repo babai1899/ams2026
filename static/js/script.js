@@ -346,9 +346,12 @@ function saveMarquee() {
     
     const text = marqueeInput.value;
     
+    const formData = new FormData();
+    formData.append('text', text);
+    
     fetch('/update-marquee', {
         method: 'POST',
-        body: new FormData().append('text', text)
+        body: formData
     })
     .then(response => {
         if (response.ok) {
@@ -869,21 +872,132 @@ if (dropZone) {
         e.preventDefault();
         this.classList.add('drag-over');
     });
-    
+
     dropZone.addEventListener('dragleave', function() {
         this.classList.remove('drag-over');
     });
-    
+
     dropZone.addEventListener('drop', function(e) {
         e.preventDefault();
         this.classList.remove('drag-over');
-        
+
         const files = e.dataTransfer.files;
         if (files.length > 0) {
             const input = document.getElementById('imageUpload');
-            if (input) input.files = files;
+            if (input) {
+                input.files = files;
+                // Trigger change event
+                input.dispatchEvent(new Event('change'));
+            }
         }
     });
+}
+
+// Browse button for images
+const browseBtn = document.querySelector('.browse-btn');
+if (browseBtn) {
+    browseBtn.addEventListener('click', function() {
+        const input = document.getElementById('imageUpload');
+        if (input) input.click();
+    });
+}
+
+// Image preview on file select
+const imageUpload = document.getElementById('imageUpload');
+if (imageUpload) {
+    imageUpload.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const previewImage = document.getElementById('previewImage');
+                const previewBox = document.getElementById('previewBox');
+                if (previewImage && previewBox) {
+                    previewImage.src = e.target.result;
+                    previewBox.style.display = 'block';
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+// Image upload function
+function uploadImage() {
+    const input = document.getElementById('imageUpload');
+    const title = document.getElementById('imageTitle') ? document.getElementById('imageTitle').value : '';
+
+    if (!input || !input.files[0]) {
+        alert('Please select an image first');
+        return;
+    }
+
+    const file = input.files[0];
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('title', title);
+    formData.append('media_type', 'image');
+
+    // Show progress
+    const progressContainer = document.getElementById('progressContainer');
+    const progressBar = document.getElementById('progressBar');
+    if (progressContainer) progressContainer.style.display = 'block';
+    if (progressBar) progressBar.style.width = '0%';
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.upload.addEventListener('progress', function(e) {
+        if (e.lengthComputable && progressBar) {
+            const percent = Math.round((e.loaded / e.total) * 100);
+            progressBar.style.width = percent + '%';
+        }
+    });
+
+    xhr.onload = function() {
+        // Hide progress
+        if (progressContainer) progressContainer.style.display = 'none';
+
+        if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                // Show toast
+                const toast = document.getElementById('toast');
+                if (toast) {
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 3000);
+                }
+
+                // Clear form
+                input.value = '';
+                const titleInput = document.getElementById('imageTitle');
+                if (titleInput) titleInput.value = '';
+                const previewBox = document.getElementById('previewBox');
+                if (previewBox) previewBox.style.display = 'none';
+
+                // Reload gallery
+                loadAdminImages();
+            } else {
+                alert('Upload failed: ' + response.message);
+            }
+        } else {
+            alert('Upload failed. Please try again.');
+        }
+    };
+
+    xhr.onerror = function() {
+        if (progressContainer) progressContainer.style.display = 'none';
+        alert('Upload failed. Please try again.');
+    };
+
+    xhr.open('POST', '/add-gallery');
+    xhr.send(formData);
 }
 
 // ================= VIDEO UPLOAD =================
@@ -894,21 +1008,116 @@ if (videoUploadBox) {
         e.preventDefault();
         this.classList.add('drag-over');
     });
-    
+
     videoUploadBox.addEventListener('dragleave', function() {
         this.classList.remove('drag-over');
     });
-    
+
     videoUploadBox.addEventListener('drop', function(e) {
         e.preventDefault();
         this.classList.remove('drag-over');
-        
+
         const files = e.dataTransfer.files;
         if (files.length > 0) {
-            const input = document.getElementById('videoInput');
-            if (input) input.files = files;
+            uploadVideo(files[0]);
         }
     });
+}
+
+// Video upload button click
+const videoUploadContent = document.querySelector('.upload-content');
+if (videoUploadContent) {
+    const chooseBtn = videoUploadContent.querySelector('.btn');
+    if (chooseBtn) {
+        chooseBtn.addEventListener('click', function() {
+            const input = document.getElementById('videoInput');
+            if (input) input.click();
+        });
+    }
+}
+
+// Video file selection
+const videoInput = document.getElementById('videoInput');
+if (videoInput) {
+    videoInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            uploadVideo(file);
+        }
+    });
+}
+
+// Video upload function
+function uploadVideo(file) {
+    if (!file) {
+        alert('Please select a video first');
+        return;
+    }
+
+    // Validate file type
+    const validTypes = ['video/mp4', 'video/webm', 'video/quicktime', 'video/x-msvideo'];
+    if (!validTypes.includes(file.type)) {
+        alert('Please select a valid video file (MP4, WebM, MOV, AVI)');
+        return;
+    }
+
+    // Check file size (100MB max)
+    const maxSize = 100 * 1024 * 1024;
+    if (file.size > maxSize) {
+        alert('Video file is too large. Maximum size is 100MB');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('title', '');
+    formData.append('media_type', 'video');
+
+    // Show progress
+    const uploadProgress = document.getElementById('uploadProgress');
+    const videoProgressBar = document.getElementById('videoProgressBar');
+    if (uploadProgress) uploadProgress.style.display = 'block';
+    if (videoProgressBar) videoProgressBar.style.width = '0%';
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.upload.addEventListener('progress', function(e) {
+        if (e.lengthComputable && videoProgressBar) {
+            const percent = Math.round((e.loaded / e.total) * 100);
+            videoProgressBar.style.width = percent + '%';
+        }
+    });
+
+    xhr.onload = function() {
+        // Hide progress
+        if (uploadProgress) uploadProgress.style.display = 'none';
+
+        if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                alert('Video uploaded successfully!');
+
+                // Clear form
+                const input = document.getElementById('videoInput');
+                if (input) input.value = '';
+
+                // Reload video gallery
+                loadAdminVideos();
+            } else {
+                alert('Upload failed: ' + response.message);
+            }
+        } else {
+            alert('Upload failed. Please try again.');
+        }
+    };
+
+    xhr.onerror = function() {
+        if (uploadProgress) uploadProgress.style.display = 'none';
+        alert('Upload failed. Please try again.');
+    };
+
+    xhr.open('POST', '/add-gallery');
+    xhr.send(formData);
 }
 
 // ================= CHANGE PASSWORD =================

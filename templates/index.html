@@ -175,6 +175,7 @@
 <section class="gallery-section" id="gallery">
     <div class="section-header">
         <h2>Our Gallery</h2>
+        <button onclick="loadGallery()" class="btn btn-outline" style="float:right; margin-top:-10px;">Refresh</button>
         <p>Moments from our journey</p>
     </div>
 
@@ -481,7 +482,6 @@ window.addEventListener('scroll', () => {
 
 /* ================= GALLERY ================= */
 
-const galleryItems = document.querySelectorAll('.gallery-item');
 const galleryModal = document.getElementById('galleryModal');
 const galleryContent = document.getElementById('galleryContent');
 const closeGallery = document.querySelector('.close-gallery');
@@ -506,7 +506,10 @@ document.querySelectorAll('.reveal').forEach(el => {
 /* Open Modal */
 function openGallery(index){
     currentIndex = index;
+    const galleryItems = document.querySelectorAll('.gallery-item');
     const item = galleryItems[index];
+    if (!item) return;
+
     const type = item.getAttribute('data-type');
     const src = item.getAttribute('data-src');
 
@@ -527,19 +530,67 @@ function openGallery(index){
     }
 
     galleryModal.style.display = "flex";
-}
 
-galleryItems.forEach((item, index) => {
-    item.addEventListener('click', () => openGallery(index));
-});
+    // Add drag navigation to the modal
+    let startX = 0;
+    let isDragging = false;
+
+    galleryModal.onmousedown = function(e) {
+        startX = e.clientX;
+        isDragging = true;
+        e.preventDefault();
+    };
+
+    galleryModal.onmousemove = function(e) {
+        if (!isDragging) return;
+        const diff = startX - e.clientX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                showNext();
+            } else {
+                showPrev();
+            }
+            isDragging = false;
+        }
+    };
+
+    galleryModal.onmouseup = function() {
+        isDragging = false;
+    };
+
+    // Touch support
+    galleryModal.ontouchstart = function(e) {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+    };
+
+    galleryModal.ontouchmove = function(e) {
+        if (!isDragging) return;
+        const diff = startX - e.touches[0].clientX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                showNext();
+            } else {
+                showPrev();
+            }
+            isDragging = false;
+        }
+    };
+
+    galleryModal.ontouchend = function() {
+        isDragging = false;
+    };
+}
 
 /* Next / Prev */
 function showNext(){
+    const galleryItems = document.querySelectorAll('.gallery-item');
     currentIndex = (currentIndex + 1) % galleryItems.length;
     openGallery(currentIndex);
 }
 
 function showPrev(){
+    const galleryItems = document.querySelectorAll('.gallery-item');
     currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
     openGallery(currentIndex);
 }
@@ -871,11 +922,34 @@ function loadGallery() {
                 }
                 container.appendChild(galleryItem);
             });
+            
+            // Set up IntersectionObserver AFTER gallery items are added to DOM
+            setupGalleryObserver();
+            
             initGalleryEvents();
         })
         .catch(err => {
             console.error("Error loading gallery:", err);
         });
+}
+
+// Separate function to set up IntersectionObserver for gallery items
+function setupGalleryObserver() {
+    const galleryItems = document.querySelectorAll('.gallery-item.reveal');
+    
+    // Create new observer for gallery items
+    const galleryObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.2 });
+    
+    // Observe all gallery items
+    galleryItems.forEach(item => {
+        galleryObserver.observe(item);
+    });
 }
 
 function initGalleryEvents() {

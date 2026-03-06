@@ -981,11 +981,12 @@ with app.app_context():
 
     if not Admin.query.first():
         admin = Admin(
-            username="admin",
-            password=bcrypt.generate_password_hash("admin123").decode("utf-8")
+            username="ams@admin",
+            password=bcrypt.generate_password_hash("ams2026").decode("utf-8")
         )
         db.session.add(admin)
         db.session.commit()
 
 if __name__ == "__main__":
     app.run(debug=True)
+

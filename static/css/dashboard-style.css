@@ -1501,6 +1501,81 @@ select.form-control {
     display: block;
 }
 
+/* Video Gallery - Small Size */
+.gallery-grid .card video {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+    background: #000;
+}
+
+/* Video Card in admin panel */
+.video-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    position: relative;
+}
+
+.video-card video {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+    background: #000;
+}
+
+/* Video Grid - Smaller columns for compact display */
+#videoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+#videoGrid .video-card video {
+    height: 120px;
+}
+
+#videoGrid .video-card {
+    padding: 0;
+}
+
+#videoGrid .video-card .video-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: white;
+    pointer-events: none;
+}
+
+#videoGrid .video-card .delete-video {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    background: var(--danger);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 12px;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+#videoGrid .video-card:hover .delete-video {
+    opacity: 1;
+}
+
+#videoGrid .video-card .video-info {
+    padding: 10px;
+}
+
 .gallery-info {
     padding: 14px;
 }
@@ -1686,7 +1761,8 @@ select.form-control {
     font-size: 14px;
 }
 
-.card ul li strong {
+.card ul li
+ strong {
     color: var(--text-primary);
 }
 

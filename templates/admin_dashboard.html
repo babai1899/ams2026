@@ -834,24 +834,24 @@
                     </button>
                 </div>
 
-            </div>
+                <!-- FULL BACKUP -->
+                <div class="card">
+                    <h3>Full Website Backup</h3>
+                    <p>Download complete backup including database, uploads, and media.</p>
+                    <button class="btn btn-primary" onclick="backupWebsite()">
+                        Create Backup
+                    </button>
+                </div>
 
-            <!-- FULL BACKUP -->
-            <div class="card">
-                <h3>Full Website Backup</h3>
-                <p>Download complete backup including database, uploads, and media.</p>
-                <button class="btn btn-primary" onclick="backupWebsite()">
-                    Create Backup
-                </button>
-            </div>
+                <!-- CLEAR CVS -->
+                <div class="card danger-card">
+                    <h3>Clear CV Uploads</h3>
+                    <p>Delete all uploaded resumes from storage.</p>
+                    <button class="btn btn-danger" onclick="clearCVUploads()">
+                        Clear CV Files
+                    </button>
+                </div>
 
-            <!-- CLEAR CVS -->
-            <div class="card danger-card">
-                <h3>Clear CV Uploads</h3>
-                <p>Delete all uploaded resumes from storage.</p>
-                <button class="btn btn-danger" onclick="clearCVUploads()">
-                    Clear CV Files
-                </button>
             </div>
 
             <!-- WEBSITE DIRECTION -->
@@ -870,6 +870,34 @@
                 <p class="direction-note">
                     Consistent updates and fast response times significantly improve credibility and lead conversion.
                 </p>
+            </div>
+
+            <!-- SHORTCUTS -->
+            <div class="settings-grid">
+                <div class="card" onclick="showSection('add-job-panel'); return false;" style="cursor: pointer;">
+                    <h3>💼 Add New Job</h3>
+                    <p>Create a new job listing for applicants.</p>
+                </div>
+                <div class="card" onclick="showSection('cv-panel'); return false;" style="cursor: pointer;">
+                    <h3>📄 View Resumes</h3>
+                    <p>Check uploaded candidate resumes.</p>
+                </div>
+                <div class="card" onclick="showSection('messages-panel'); return false;" style="cursor: pointer;">
+                    <h3>💬 Messages</h3>
+                    <p>View contact form submissions.</p>
+                </div>
+                <div class="card" onclick="showSection('image-panel'); return false;" style="cursor: pointer;">
+                    <h3>🖼️ Image Gallery</h3>
+                    <p>Manage website images.</p>
+                </div>
+                <div class="card" onclick="showSection('video-panel'); return false;" style="cursor: pointer;">
+                    <h3>🎬 Video Gallery</h3>
+                    <p>Manage website videos.</p>
+                </div>
+                <div class="card" onclick="window.open('/', '_blank');" style="cursor: pointer;">
+                    <h3>🌐 View Website</h3>
+                    <p>Open the main website in new tab.</p>
+                </div>
             </div>
 
             <!-- BACKUP PROGRESS MODAL -->
